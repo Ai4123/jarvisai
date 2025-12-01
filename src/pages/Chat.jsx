@@ -11,6 +11,7 @@ import toast from "react-hot-toast";
 import { supabase } from "../lib/supabaseClient";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import { getUserIdForChat } from "../utils/userId";
 import { 
   MessageSquare, 
   Sparkles, 
@@ -134,6 +135,12 @@ export default function Chat() {
   const createNewChat = async () => {
     console.log("🆕 CREATE NEW CHAT CALLED");
     
+    if (!user || !user.username) {
+      console.error("❌ User not available for chat creation");
+      toast.error("Please log in to start a chat");
+      return null;
+    }
+    
     // 🔥 Close any existing active chat first
     const currentChatId = localStorage.getItem("chat_id");
     if (currentChatId) {
@@ -141,15 +148,40 @@ export default function Chat() {
       await closeChat(currentChatId);
     }
 
-    const newId = crypto.randomUUID();
+    // Get user_id UUID (chats.user_id references public.users.id which is a UUID)
+    const userId = await getUserIdForChat(user);
+    if (!userId) {
+      console.error("❌ Could not determine user_id UUID");
+      toast.error("User not found in database. Please log out and log in again to create your user account.");
+      return null;
+    }
 
-    const { error } = await supabase.from("chats").insert({
-      id: newId,
-      user_id: user.username,
-      status: "active",
-    });
+    console.log("✅ Using verified user_id:", userId);
 
-    if (!error) {
+    // Let Supabase auto-generate the ID (don't manually set it)
+    const { data, error } = await supabase
+      .from("chats")
+      .insert({
+        user_id: userId, // Now using UUID instead of username string
+        status: "active",
+      })
+      .select()
+      .single();
+
+    if (error) {
+      console.error("❌ Failed to create chat:", error);
+      console.error("Error details:", {
+        message: error.message,
+        details: error.details,
+        hint: error.hint,
+        code: error.code
+      });
+      toast.error(`Failed to start chat: ${error.message || "Unknown error"}`);
+      return null;
+    }
+
+    if (data && data.id) {
+      const newId = data.id;
       localStorage.setItem("chat_id", newId);
       localStorage.setItem("lastActivity", Date.now().toString());
       setChatId(newId);
@@ -161,10 +193,12 @@ export default function Chat() {
       setShowTicketPrompt(false);
       setSessionExpired(false);
       
+      console.log("✅ Chat created successfully:", newId);
       toast.success("New chat started");
       return newId;
     } else {
-      toast.error("Failed to start chat");
+      console.error("❌ Chat created but no ID returned");
+      toast.error("Failed to start chat: No ID returned");
       return null;
     }
   };

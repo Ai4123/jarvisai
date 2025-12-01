@@ -1,0 +1,89 @@
+{
+  "name": "feedback thumbs",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "23715d19-e2e5-42ee-ae3e-b5160daa6790",
+        "authentication": "jwtAuth",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "a7a61f96-6072-4e24-ad74-1382c9f1cf6f",
+      "name": "Webhook",
+      "webhookId": "23715d19-e2e5-42ee-ae3e-b5160daa6790",
+      "credentials": {
+        "jwtAuth": {
+          "id": "BfzFP9N8sYe7OI2j",
+          "name": "JWT Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "tableId": "feedback",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "message_id",
+              "fieldValue": "={{ $json.body.message_id }}"
+            },
+            {
+              "fieldId": "user_id",
+              "fieldValue": "={{ $json.jwtPayload.username }}"
+            },
+            {
+              "fieldId": "rating",
+              "fieldValue": "={{ $json.body.rating }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "d9c96669-8afa-4e4e-aec6-ff0f2b1a456a",
+      "name": "Create a row",
+      "credentials": {
+        "supabaseApi": {
+          "id": "8GaIh3SskFT7YKo4",
+          "name": "Supabase account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Create a row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "83bf3ef0-33f3-41de-87b6-ec486a8f4377",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "94c1f6d8acd1731e84fa6da9657b66416c0d00f160cbfe2dadafe704c018fe36"
+  },
+  "id": "FeBGiYkG03KK91XU",
+  "tags": []
+}

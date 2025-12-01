@@ -17,6 +17,7 @@ import { supabase } from "../lib/supabaseClient";
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
+import { getUserIdForChat } from "../utils/userId";
 
 export default function History() {
   const { user } = useAuth();
@@ -52,11 +53,20 @@ export default function History() {
   const loadChats = async () => {
     setLoading(true);
 
+    // Get user_id UUID (chats.user_id references auth_users.id which is a UUID)
+    const userId = await getUserIdForChat(user);
+    if (!userId) {
+      console.error("❌ Could not determine user_id UUID");
+      toast.error("Failed to load chat history");
+      setLoading(false);
+      return;
+    }
+
     // 🔥 Only load CLOSED chats
     const { data, error } = await supabase
       .from("chats")
       .select("*")
-      .eq("user_id", user.username)
+      .eq("user_id", userId) // Now using UUID instead of username string
       .eq("status", "closed") // 🔥 Only show closed chats
       .order("created_at", { ascending: false });
 

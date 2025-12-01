@@ -4,7 +4,7 @@ import axios from "axios";
 const api = axios.create({
   baseURL: import.meta.env.DEV 
     ? "/api/n8n" // Use proxy in development
-    : "https://ritviksharmaa.app.n8n.cloud/webhook", // Direct in production
+    : "https://ayk1.app.n8n.cloud/webhook", // Direct in production
   headers: {
     "Content-Type": "application/json",
   },

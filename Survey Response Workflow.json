@@ -1,0 +1,90 @@
+{
+  "name": "Survey Response Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "a8f9e66d-008c-4256-9400-a364e05b6c2c",
+        "authentication": "jwtAuth",
+        "responseMode": "lastNode",
+        "responseData": "noData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "bfcfe74c-5f16-47e9-afc3-40f2f2408b83",
+      "name": "Webhook",
+      "webhookId": "a8f9e66d-008c-4256-9400-a364e05b6c2c",
+      "credentials": {
+        "jwtAuth": {
+          "id": "BfzFP9N8sYe7OI2j",
+          "name": "JWT Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "tableId": "survey_responses",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "user_id",
+              "fieldValue": "={{ $json.jwtPayload.username }}"
+            },
+            {
+              "fieldId": "rating",
+              "fieldValue": "={{ $json.body.rating }}"
+            },
+            {
+              "fieldId": "notes",
+              "fieldValue": "={{ $json.body.notes }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "a3a92902-1399-4fcb-bad6-524134bf545c",
+      "name": "Create a row",
+      "credentials": {
+        "supabaseApi": {
+          "id": "8GaIh3SskFT7YKo4",
+          "name": "Supabase account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Create a row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "6a1f8248-f832-4185-9822-4771b1394710",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "94c1f6d8acd1731e84fa6da9657b66416c0d00f160cbfe2dadafe704c018fe36"
+  },
+  "id": "9Ae1rJjBo9Gu2y3r",
+  "tags": []
+}
