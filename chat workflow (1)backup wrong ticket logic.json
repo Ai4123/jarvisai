@@ -1,0 +1,1515 @@
+{
+  "name": "chat workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "retrieve documents as tool for ai agents",
+        "tableName": {
+          "__rl": true,
+          "value": "documents",
+          "mode": "list",
+          "cachedResultName": "documents"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1.3,
+      "position": [
+        -1504,
+        944
+      ],
+      "id": "2aa6d0c5-07bb-4e58-b66e-206735b715cc",
+      "name": "Supabase Vector Store",
+      "credentials": {
+        "supabaseApi": {
+          "id": "8GaIh3SskFT7YKo4",
+          "name": "Supabase account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "a03fff0e-04a6-449c-aa41-0116ab22b7c0",
+        "authentication": "jwtAuth",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -5200,
+        656
+      ],
+      "id": "20a55b67-856d-4d24-a691-b60eeb522d8a",
+      "name": "JWT autheticated webhook",
+      "webhookId": "a03fff0e-04a6-449c-aa41-0116ab22b7c0",
+      "credentials": {
+        "jwtAuth": {
+          "id": "RK03buPskdFAJmO9",
+          "name": "JWT Auth account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "chats",
+        "returnAll": true,
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "user_id",
+              "condition": "eq",
+              "keyValue": "={{ $json.jwtPayload.user_id }}"
+            },
+            {
+              "keyName": "status",
+              "condition": "eq",
+              "keyValue": "active"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -4944,
+        656
+      ],
+      "id": "9d7a5233-0eb8-4bc2-8775-bfd9a93da4d3",
+      "name": "supabase select chat",
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "8GaIh3SskFT7YKo4",
+          "name": "Supabase account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "68e868a4-059f-45de-96aa-cec7cb5314b1",
+              "leftValue": "={{ $json.id }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {
+          "ignoreCase": false
+        }
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -4736,
+        656
+      ],
+      "id": "788ada62-11ed-4c49-9f14-012ef168546b",
+      "name": "check if chat exists"
+    },
+    {
+      "parameters": {
+        "tableId": "chats",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "user_id",
+              "fieldValue": "={{ $('JWT autheticated webhook').item.json.jwtPayload.user_id }}"
+            },
+            {
+              "fieldId": "status",
+              "fieldValue": "active"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -4528,
+        752
+      ],
+      "id": "298d0437-3e33-4d40-8188-79a1410482d0",
+      "name": "Create a row",
+      "credentials": {
+        "supabaseApi": {
+          "id": "8GaIh3SskFT7YKo4",
+          "name": "Supabase account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1e87d66e-5534-44b8-8c9b-ae9d9586900d",
+              "name": "chat_id",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -4320,
+        752
+      ],
+      "id": "4590634b-84ab-4e9b-943a-cbeadaa0c21d",
+      "name": "extract chat_id"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "56da7ddf-5996-4e86-a233-5165e96748b5",
+              "name": "chat_id",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -4416,
+        544
+      ],
+      "id": "af92590a-6304-4181-8f5b-3232061f9221",
+      "name": "extract chat_id1"
+    },
+    {
+      "parameters": {
+        "tableId": "messages",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "chat_id",
+              "fieldValue": "={{ $json.chat_id }}"
+            },
+            {
+              "fieldId": "role",
+              "fieldValue": "user"
+            },
+            {
+              "fieldId": "content",
+              "fieldValue": "={{ $('JWT autheticated webhook').item.json.body.message }}"
+            },
+            {
+              "fieldId": "user_id",
+              "fieldValue": "={{ $('JWT autheticated webhook').item.json.jwtPayload.user_id }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -4112,
+        592
+      ],
+      "id": "adf344cc-3f6f-4431-8f58-bd7bea7e88b6",
+      "name": "insert into messages",
+      "credentials": {
+        "supabaseApi": {
+          "id": "8GaIh3SskFT7YKo4",
+          "name": "Supabase account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "tableId": "messages",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "chat_id",
+              "fieldValue": "={{ $('Code in JavaScript3').first().json.chat_id.trim() }}"
+            },
+            {
+              "fieldId": "role",
+              "fieldValue": "ai"
+            },
+            {
+              "fieldId": "content",
+              "fieldValue": "={{ $json.ai_response }}"
+            },
+            {
+              "fieldId": "user_id",
+              "fieldValue": "={{ $('JWT autheticated webhook').first().json.jwtPayload.user_id }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -1072,
+        688
+      ],
+      "id": "9948a259-e617-47ac-9dd8-4785083010e4",
+      "name": "insert into messages for ai",
+      "credentials": {
+        "supabaseApi": {
+          "id": "8GaIh3SskFT7YKo4",
+          "name": "Supabase account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw =   $input.first().json.output \n\nif(!raw || !raw.includes(\"###CONTROL:\")){\n  throw new Error(\"AI response missing CONTROL block\");\n}\n\nconst parts = raw.split(\"###CONTROL:\");\nconst ai_response = parts[0].trim();\nconst control = JSON.parse(parts[1]);\n\nreturn [\n  {\n    json:{\n      ai_response,\n      domain: control.domain,\n      confidence: control.confidence,\n      resolved: control.resolved\n    }\n  }\n]\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1280,
+        688
+      ],
+      "id": "c248af24-35a3-456b-a1ac-02ec9e4a9009",
+      "name": "parse_control"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "d1233c4f-e88b-4e2e-bbe3-6ac77b65e936",
+              "leftValue": "={{ $('parse_control').item.json.domain }}",
+              "rightValue": "=out-of-domain",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -864,
+        688
+      ],
+      "id": "607dad61-f8f4-458d-bd57-aa64d4ed10e7",
+      "name": "out of domain ?"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "088cee27-08c5-4a66-9aae-202bb4a7a761",
+              "leftValue": "={{ $('parse_control').item.json.confidence }}",
+              "rightValue": 0.4,
+              "operator": {
+                "type": "number",
+                "operation": "lt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -448,
+        784
+      ],
+      "id": "84c21367-6073-4387-8dd6-c8dc19eac287",
+      "name": "kb insufficient?"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "messages",
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "chat_id",
+              "condition": "eq",
+              "keyValue": "={{ $('Code in JavaScript3').first().json.chat_id.trim() }}"
+            },
+            {
+              "keyName": "role",
+              "condition": "eq",
+              "keyValue": "=ai"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        64,
+        1024
+      ],
+      "id": "2f39fe30-ba66-446e-8bcb-e40b3638b779",
+      "name": "Get many rows",
+      "credentials": {
+        "supabaseApi": {
+          "id": "8GaIh3SskFT7YKo4",
+          "name": "Supabase account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Count how many items came from \"Get many rows\"\nconst count = $items().length;\n\n// Pull along the current chat_id and the AI text to keep context.\n// If your current item carries these already, use $json; if not, read from earlier nodes:\nconst chat_id =$input.first().json.chat_id;\nconst ai_response = $('parse_control').first().json.ai_response\n\nreturn [{ json: { ai_count: count, chat_id, ai_response } }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        272,
+        1024
+      ],
+      "id": "96d7fd82-a5a3-42cc-ae4f-8114ccdef92b",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "60460e3a-36e4-43f5-bfa0-28f187fb6134",
+              "leftValue": "={{ Number($json.ai_count) }}",
+              "rightValue": 5,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        480,
+        1024
+      ],
+      "id": "c0981b02-f437-4259-b123-11bb3cc132a7",
+      "name": "escalation logic , 5 ai responses"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "messages",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "chat_id",
+              "condition": "eq",
+              "keyValue": "={{ $('insert into messages').first().json.chat_id }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "88afc24e-382f-49b9-b096-9f95be22d05a",
+      "name": "Get many rows1",
+      "credentials": {
+        "supabaseApi": {
+          "id": "8GaIh3SskFT7YKo4",
+          "name": "Supabase account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// build transcript from all message rows\nconst lines = $items().map(i => {\n  return `${i.json.role.toUpperCase()} : ${i.json.content}`;\n});\n\n// chat_id from the first item (all messages have same chat_id)\nconst chat_id = $items()[0].json.chat_id;\n\nreturn [{\n  json:{\n    transcript: lines.join(\"\\n\"),\n    chat_id: chat_id\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        0
+      ],
+      "id": "d819d006-5c24-417c-b4ba-5db4a7ed6cf9",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=this is the transcript generated : {{ $json.transcript }}",
+        "options": {
+          "systemMessage": "=You are a Ticket Metadata Extraction Agent.\nYour sole purpose is to analyze a full chat transcript between a USER and an AI Assistant and generate structured ticket metadata in valid JSON format.\n\nYou are not a conversational assistant. You do not answer user questions or summarize the chat beyond what is required to fill the ticket fields.\n\nCore Rules:\n\nDo not answer, comment, or explain anything. Your only task is to create a JSON object that defines ticket metadata.\n\nDo not alter or summarize the transcript text itself. Do not rewrite, shorten, or paraphrase any part of it.\n\nDo not include markdown formatting, extra text, or explanations. Output only pure JSON.\n\nThe output must strictly follow the specified key names and structure below. No deviations, additional fields, or alternative phrasing are allowed.\n\nField Instructions:\n\nchat_id – Use exactly {{ $json.chat_id }} and do not change or replace it.\ntitle – A 5–9 word concise title summarizing the main issue or question discussed.\ndescription – A single short sentence summarizing the issue context or intent.\ntranscript_url – Always set to \"high\" (placeholder).\ncategory – Always set to \"KB-missing\".\npriority – Set to \"High\" if the transcript indicates urgency, escalation, or service-impacting issues; otherwise set to \"Medium\".\nstatus –  already determined in workflow before this node.\n\ntranscript – Always use this literal placeholder exactly: {{ $json.transcript }}. Do not replace it with content.\n\nOutput Format (MANDATORY):\n\n{\n\"chat_id\": \"{{ $json.chat_id }}\",\n\"title\": \"<short title here>\",\n\"description\": \"<one sentence summary>\",\n\"transcript_url\": \"missing\",\n\"category\": \"KB-missing\",\n\"priority\": \"<Medium or High>\",\n\"status\": already determined in workflow before this node.\n}\n\nCritical Compliance Requirements:\n\nNo markdown or code blocks.\n\nNo additional text, comments, or explanations.\n\nOutput must be valid JSON that can be parsed directly.\n\nNever replace or modify placeholders like {{ $json.chat_id }} or {{ $json.transcript }}.\n\nYour entire response must be only the JSON object described above."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        784,
+        0
+      ],
+      "id": "b48eecfb-da39-4364-8bff-0cffbbc648df",
+      "name": "ticket builder agent"
+    },
+    {
+      "parameters": {
+        "jsCode": "// --- Step 1: get AI output ---\nlet raw = $input.first().json.output || \"\";\n\n// --- Step 2: clean and parse safely ---\nraw = raw.trim();\nraw = raw.replace(/```json/gi, \"\").replace(/```/g, \"\");\n// Remove comments and line numbers if present\nraw = raw.replace(/\\/\\/.*$/gm, \"\");\nraw = raw.replace(/^\\s*\\d+\\.\\s*/gm, \"\"); // e.g., \"1. foo\": \"bar\"\n// Remove trailing commas\nraw = raw.replace(/,\\s*([}\\]])/g, \"$1\");\n// Replace single quotes with double quotes (very basic, may not always be safe!)\nif (\n  raw.includes(\"'\") &&\n  !raw.includes('\"')\n) {\n  raw = raw.replace(/'/g, '\"');\n}\n\nlet obj;\ntry {\n  obj = JSON.parse(raw);\n} catch(e) {\n  throw new Error(\"Invalid JSON from AI Agent \");\n}\n\n// --- Step 3: get status from previous node ---\nlet status;\ntry {\n  status = $('set status resolved for ticket').first().json.status || $('set status open for ticket').first().json.status;\n} catch (e) {\n  status = \"open\"; // default fallback\n}\n\n// --- Step 4: override AI status with correct workflow value ---\nobj.status = status;\n\n// --- Step 5: return final JSON for DB insert ---\nreturn [\n  {\n    json: obj\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1120,
+        0
+      ],
+      "id": "44cd153d-1b40-4297-bc07-6a0b62686f4c",
+      "name": "Code in JavaScript2"
+    },
+    {
+      "parameters": {
+        "tableId": "tickets",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "chat_id",
+              "fieldValue": "={{ $json.chat_id }}"
+            },
+            {
+              "fieldId": "title",
+              "fieldValue": "={{ $json.title }}"
+            },
+            {
+              "fieldId": "description",
+              "fieldValue": "={{ $json.description }}"
+            },
+            {
+              "fieldId": "transcript",
+              "fieldValue": "={{ $('Code in JavaScript1').first().json.transcript }}"
+            },
+            {
+              "fieldId": "category",
+              "fieldValue": "={{ $json.category }}"
+            },
+            {
+              "fieldId": "priority",
+              "fieldValue": "={{ $json.priority }}"
+            },
+            {
+              "fieldId": "status",
+              "fieldValue": "={{ $json.status }}"
+            },
+            {
+              "fieldId": "user_id",
+              "fieldValue": "={{ $('JWT autheticated webhook').first().json.jwtPayload.user_id }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1328,
+        0
+      ],
+      "id": "34abec86-7dd6-4183-bd45-241fe9e17a95",
+      "name": "Create a row1",
+      "credentials": {
+        "supabaseApi": {
+          "id": "8GaIh3SskFT7YKo4",
+          "name": "Supabase account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "allIncomingItems",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        1408,
+        1168
+      ],
+      "id": "6dee600f-f012-449e-80ab-8c4755b7c616",
+      "name": "Respond to Webhook2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "1d8e57cb-521c-437c-9d27-3fcd177d890f",
+              "leftValue": "={{ $('JWT autheticated webhook').first().json.body.message.toLowerCase().includes(\"create a ticket\")}}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -2608,
+        704
+      ],
+      "id": "942cc143-c810-4203-8015-b4ab75ad7c3d",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "chats",
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id",
+              "condition": "eq",
+              "keyValue": "={{ $json.chat_id }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "status",
+              "fieldValue": "closed"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1536,
+        0
+      ],
+      "id": "1071b4be-a8e9-4dbd-900c-e42f90a84560",
+      "name": "Update a row",
+      "credentials": {
+        "supabaseApi": {
+          "id": "8GaIh3SskFT7YKo4",
+          "name": "Supabase account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "messages",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "chat_id",
+              "condition": "eq",
+              "keyValue": "={{ $json.chat_id }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -2176,
+        816
+      ],
+      "id": "1731c07a-f5c4-4f26-8fca-b59264809e7c",
+      "name": "get messages context",
+      "credentials": {
+        "supabaseApi": {
+          "id": "8GaIh3SskFT7YKo4",
+          "name": "Supabase account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// All message rows come from Supabase (get many rows)\n// We need to combine them into a readable conversation string for AI context\n\n// Sort by created_at (just in case)\nconst sorted = $items().sort((a, b) => new Date(a.json.created_at) - new Date(b.json.created_at));\n\n// Build a readable conversation transcript\nconst chatContext = sorted.map(i => {\n  const role = i.json.role ? i.json.role.toUpperCase() : 'USER';\n  const content = i.json.content?.trim() || '';\n  return `${role}: ${content}`;\n}).join('\\n');\n\n// Return the context as a single input item\nreturn [\n  {\n    json: {\n      chat_context: chatContext\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1968,
+        832
+      ],
+      "id": "60ce57ec-6fa0-481d-a583-121a5492f9dc",
+      "name": "build chat context"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "e3646932-67bf-46e0-a72f-31db9872f83f",
+              "leftValue": "={{ $('parse_control').isExecuted }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1744,
+        0
+      ],
+      "id": "b3d43b4c-a985-4260-8664-67b64f7a7996",
+      "name": "parse control node exists"
+    },
+    {
+      "parameters": {
+        "respondWith": "allIncomingItems",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        2112,
+        16
+      ],
+      "id": "fdf0d4b0-4364-49f1-a524-cf0f1eee3542",
+      "name": "Respond to Webhook4"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('JWT autheticated webhook').first().json.jwtPayload.email }}",
+        "subject": "Regarding your Ticket.",
+        "emailType": "text",
+        "message": "=your ticket with chat id : {{ $('Create a row1').item.json.chat_id }} is created.\ntime of creation : {{ $('Create a row1').item.json.created_at }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        2256,
+        16
+      ],
+      "id": "12dc66f9-03a3-4ecb-b799-0cd7ba8b20e5",
+      "name": "Send a message",
+      "webhookId": "23b9f9a1-b605-46a7-bfa0-543fa37cc42f",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "zeY2LIAV1iCYBvk1",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "2631a02a-f992-40c0-90f1-2eee19504f28",
+              "leftValue": "={{ $('JWT autheticated webhook').first().json.body.message.toLowerCase().includes(\"no\") }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "61f1f25b-e15a-4426-a457-f6239a0846af",
+              "leftValue": "={{ $('JWT autheticated webhook').first().json.body.message.toLowerCase().includes(\"not satisfied\") }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "2495aa1a-4e4a-4bf0-8317-9cb16e20e3a8",
+              "leftValue": "={{ $('JWT autheticated webhook').first().json.body.message.toLowerCase().includes(\"not resolved\") }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -3024,
+        592
+      ],
+      "id": "5afbd983-7cf1-4f97-a55a-a61a32e76b6f",
+      "name": "query resolved ?"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Trim all string values in the current JSON object\nconst cleaned = {};\n\nfor (const [key, value] of Object.entries($json)) {\n  if (typeof value === 'string') {\n    cleaned[key] = value.trim();\n  } else {\n    cleaned[key] = value;\n  }\n}\n\n// Return the cleaned object so downstream nodes get it\nreturn [{ json: cleaned }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -3824,
+        592
+      ],
+      "id": "729083bc-3fb9-49f4-afb0-da6575da7f37",
+      "name": "Code in JavaScript3"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    json: {\n      ...$json,\n      status: 'resolved'\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2592,
+        496
+      ],
+      "id": "d003b559-1de9-46ad-96c8-48cce72ca67c",
+      "name": "set status resolved for ticket"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    json: {\n      ...$json,\n      status: 'open'\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2048,
+        592
+      ],
+      "id": "3a9aa615-c627-480f-990d-d1f1f0e5915c",
+      "name": "set status open for ticket"
+    },
+    {
+      "parameters": {
+        "jsCode": "const rawResponse =\n  ($input.first().json.ai_response || \"\") +\n  \"                        \";\n\n\n\nconst data = {\n  response: rawResponse,\n  chat_id: $input.first().json.chat_id || null\n};\n\n// Output clean JSON directly\nreturn [\n  {\n    json: data\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        896,
+        1136
+      ],
+      "id": "9059cf25-e40f-4739-be81-d8053ac6eeee",
+      "name": "Code in JavaScript4"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Build clean JSON object\nconst data = {\n  response:\n    $input.first().json.ai_response +\n    \"           seems like you are not satisfied by my response , would you like me to raise a ticket ? if yes then type (create a ticket).\",\n  chat_id: $input.first().json.chat_id\n};\n\n// RETURN CLEAN JSON (not string)\nreturn [\n  {\n    json: data\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        944,
+        944
+      ],
+      "id": "ffe1f808-47cc-45b2-ba0e-7ff8d4209d57",
+      "name": "Code in JavaScript5"
+    },
+    {
+      "parameters": {
+        "respondWith": "allIncomingItems",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        1152,
+        944
+      ],
+      "id": "0c20e909-7b72-48e4-9fa2-52632acaea9c",
+      "name": "Respond to Webhook1"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Pull chat_id from previous node\nconst chat_id = $('insert into messages').first().json.chat_id || null;\n\nconst data = {\n  response: \"Your ticket has been created successfully and the chat has been closed.\",\n  chat_id\n};\n\nreturn [\n  {\n    json: data\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1952,
+        96
+      ],
+      "id": "23bd5e36-3fc0-4c9e-a78d-b223cbc2c940",
+      "name": "Code in JavaScript6"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract values safely\nconst response = $('parse_control').item.json.ai_response || \"\";\nconst chat_id = $('insert into messages').first().json.chat_id || null;\n\n// Build final JSON\nconst data = {\n  response,\n  chat_id\n};\n\n// Return clean JSON object\nreturn [\n  {\n    json: data\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -656,
+        592
+      ],
+      "id": "3edfb1ae-9132-4743-ac27-2337d0f48d0b",
+      "name": "Code in JavaScript7"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        -464,
+        496
+      ],
+      "id": "0da50f68-97ad-428a-8c95-f83ac990cebd",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -1344,
+        1072
+      ],
+      "id": "f47e9b64-49b8-4303-9379-3ddfef2d97f5",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "05li2hckcGHpSTvJ",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        -1664,
+        944
+      ],
+      "id": "ede11334-b3ea-488f-9299-974d41be1de0",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "05li2hckcGHpSTvJ",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        656,
+        208
+      ],
+      "id": "7a162a9e-fd80-4369-a74f-e000b989d57d",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "05li2hckcGHpSTvJ",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('JWT autheticated webhook').first().json.body.message }}",
+        "options": {
+          "systemMessage": "=SYSTEM PROMPT (RAG – Strict + Assignment Behavior)\\n\\nYou are an AI agent (your name is Jarvis) whose only source of truth is the documents stored in the connected Supabase Vector Store.\\nYou must answer strictly, only from the knowledge retrieved from those documents.\\nDo not hallucinate. Do not assume.\\n\\nCRITICAL: HOW TO USE THE VECTOR STORE TOOL\\n\\nYou have access to a tool called \\\"retrieve documents as tool for ai agents\\\" (Supabase Vector Store).\\n\\nMANDATORY WORKFLOW FOR EVERY USER QUERY:\\n1. ALWAYS call the \\\"retrieve documents as tool for ai agents\\\" tool FIRST with the user's question/query\\n2. The tool will search the knowledge base and return relevant document chunks\\n3. Use ONLY the information from the retrieved documents to answer\\n4. If the tool returns no results or empty results, tell the user the information is not in the knowledge base\\n5. NEVER answer without first calling the retrieval tool\\n\\nTOOL USAGE INSTRUCTIONS:\\n- Tool name: \\\"retrieve documents as tool for ai agents\\\"\\n- Input: The user's question or query as a search string\\n- Output: Relevant document chunks from the knowledge base\\n- You MUST use this tool for EVERY user question before answering\\n\\nIf the answer is not found inside the retrieved documents, politely refuse and tell the user that the answer is not present in the available knowledge base.\\n\\nRules:\\n\\nOnly answer based on the chunked text / docs retrieved from Supabase Vector Store.\\n\\nALWAYS call the retrieval tool before answering any question.\\n\\nNever create your own assumptions / additional explanations if not supported by retrieved context.\\n\\nIf the user asks anything that is outside the scope of the loaded documents, reply with:\\n\\\"I'm sorry, this information is not present in my knowledge base.\\\"\\n\\nDo not claim external internet access. You only have access to the Supabase vector data.\\n\\nKeep responses concise, factual, and directly grounded in the original text returned from RAG retrieval.\\n\\nIf the user asks for advice that cannot be derived strictly from the documents, politely decline.\\n\\nNever output content outside the domain of the knowledge base.\\n\\nAdditional Assignment Behaviors\\nif the user is thanking you from the incoming chat , then \\ngreet back and ask the user if the query is resolved ?\\n\\neach time , refer to user by name : {{ $('JWT autheticated webhook').first().json.jwtPayload.name }}\\n\\nyou must know the previous chat history from this :{{ $json.chat_context }} , answer the user from previous chat history whenever required.\\n\\nYou must self-classify if the message is in-domain or out-of-domain.\\n\\nYou must self-evaluate confidence (0 to 1) based ONLY on how strong / relevant / direct the retrieved docs were.\\n\\nYou must evaluate if this response fully resolves the user's issue.\\n\\nResponse Format Requirement\\n\\nAt the end of every response, append this exact JSON control block (no variation):\\n\\n###CONTROL:\\n{\\n\\\"domain\\\": \\\"<in-domain|out-of-domain>\\\",\\n\\\"confidence\\\": <float between 0 and 1>,\\n\\\"resolved\\\": \\\"<yes|no>\\\"\\n}\\n\\n\\nWhere:\\n\\ndomain identifies if the query belongs to the domain of this knowledge base\\n\\nconfidence is based on retrieval relevance\\n\\nresolved means whether this single response completely solves the user's question problem\\n\\nConfirmation\\n\\nThis is the only system instruction you use.\\nFollow it deterministically "
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        -1632,
+        752
+      ],
+      "id": "39073a86-c29e-4849-9ac5-a8cbbac85fdc",
+      "name": "AI Agent1",
+      "alwaysOutputData": true
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Supabase Vector Store": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "JWT autheticated webhook": {
+      "main": [
+        [
+          {
+            "node": "supabase select chat",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "supabase select chat": {
+      "main": [
+        [
+          {
+            "node": "check if chat exists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "check if chat exists": {
+      "main": [
+        [
+          {
+            "node": "extract chat_id1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create a row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a row": {
+      "main": [
+        [
+          {
+            "node": "extract chat_id",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "extract chat_id": {
+      "main": [
+        [
+          {
+            "node": "insert into messages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "extract chat_id1": {
+      "main": [
+        [
+          {
+            "node": "insert into messages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "insert into messages": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "parse_control": {
+      "main": [
+        [
+          {
+            "node": "insert into messages for ai",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "insert into messages for ai": {
+      "main": [
+        [
+          {
+            "node": "out of domain ?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "out of domain ?": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript7",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "kb insufficient?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "kb insufficient?": {
+      "main": [
+        [
+          {
+            "node": "Get many rows1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get many rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many rows": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "escalation logic , 5 ai responses",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "escalation logic , 5 ai responses": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript5",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Code in JavaScript4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many rows1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "ticket builder agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ticket builder agent": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript2": {
+      "main": [
+        [
+          {
+            "node": "Create a row1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "set status open for ticket",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "get messages context",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a row1": {
+      "main": [
+        [
+          {
+            "node": "Update a row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update a row": {
+      "main": [
+        [
+          {
+            "node": "parse control node exists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get messages context": {
+      "main": [
+        [
+          {
+            "node": "build chat context",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "build chat context": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "parse control node exists": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook4",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Code in JavaScript6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond to Webhook4": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "query resolved ?": {
+      "main": [
+        [
+          {
+            "node": "set status resolved for ticket",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript3": {
+      "main": [
+        [
+          {
+            "node": "query resolved ?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "set status resolved for ticket": {
+      "main": [
+        [
+          {
+            "node": "Get many rows1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "set status open for ticket": {
+      "main": [
+        [
+          {
+            "node": "Get many rows1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript4": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript5": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript6": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript7": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Supabase Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "ticket builder agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "parse_control",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "171956d7-073e-4e63-bf56-419a06757c8a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "94c1f6d8acd1731e84fa6da9657b66416c0d00f160cbfe2dadafe704c018fe36"
+  },
+  "id": "Nbp1bzqNj22HhDay",
+  "tags": []
+}
