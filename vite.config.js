@@ -8,7 +8,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api/n8n': {
-        target: 'https://ayk1.app.n8n.cloud',
+        target: 'https://ritviksharmaa.app.n8n.cloud',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api\/n8n/, '/webhook/a03fff0e-04a6-449c-aa41-0116ab22b7c0'),
         secure: false,

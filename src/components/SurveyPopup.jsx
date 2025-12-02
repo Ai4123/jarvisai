@@ -25,6 +25,9 @@ const handleSubmit = async (e) => {
   const ticketId = localStorage.getItem("ticket_id");
 
   try {
+    // Get JWT token for debugging
+    const token = localStorage.getItem("authToken");
+    console.log("🔑 JWT Token present:", !!token);
     console.log("📤 Sending survey data:", {
       rating,
       notes: feedback,
@@ -39,8 +42,8 @@ const handleSubmit = async (e) => {
     // If it's a relative URL, it will use the baseURL from axios config
     // If it's a full URL, it will override the baseURL
     const response = await api.post(surveyUrl, {
-      rating: rating.toString(),
-      notes: feedback,
+      rating: parseInt(rating), // Send as integer, not string
+      notes: feedback || null,
       ticket_id: ticketId || null,
     });
 

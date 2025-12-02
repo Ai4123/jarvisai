@@ -25,6 +25,8 @@ export default function ChatSession() {
   const loadChat = async () => {
     setLoading(true);
 
+    console.log("🔍 Loading messages for chat_id:", id);
+
     const { data, error } = await supabase
       .from("messages")
       .select("*")
@@ -32,9 +34,46 @@ export default function ChatSession() {
       .order("created_at", { ascending: true });
 
     if (error) {
-      console.error("Error loading chat session:", error);
+      console.error("❌ Error loading chat session:", error);
+      console.error("Error details:", {
+        message: error.message,
+        details: error.details,
+        hint: error.hint,
+        code: error.code
+      });
       toast.error("Failed to load chat messages");
+      setMessages([]);
     } else {
+      console.log(`✅ Loaded ${data?.length || 0} messages for chat_id: ${id}`);
+      console.log("Messages:", data?.map(m => ({ 
+        id: m.id, 
+        role: m.role, 
+        content: m.content?.substring(0, 50) + "...",
+        chat_id: m.chat_id,
+        user_id: m.user_id,
+        created_at: m.created_at
+      })) || []);
+      
+      // 🔍 DIAGNOSTIC: Check if there are any messages in the database for this chat
+      if (!data || data.length === 0) {
+        console.warn("⚠️ No messages found for this chat_id");
+        
+        // Check if messages exist for this chat_id at all
+        const { data: allMessages, error: allError } = await supabase
+          .from("messages")
+          .select("id, chat_id, role, content")
+          .limit(10);
+        
+        if (!allError && allMessages) {
+          console.log("🔍 Sample messages in database:", allMessages);
+          const chatMessages = allMessages.filter(m => m.chat_id === id);
+          console.log(`🔍 Messages matching this chat_id: ${chatMessages.length}`);
+          if (chatMessages.length === 0) {
+            console.warn("⚠️ No messages in database match this chat_id");
+          }
+        }
+      }
+      
       setMessages(data || []);
     }
 
@@ -42,14 +81,32 @@ export default function ChatSession() {
   };
 
   const loadChatInfo = async () => {
+    console.log("🔍 Loading chat info for chat_id:", id);
+    
     const { data, error } = await supabase
       .from("chats")
       .select("*")
       .eq("id", id)
       .single();
 
-    if (!error && data) {
+    if (error) {
+      console.error("❌ Error loading chat info:", error);
+      console.error("Error details:", {
+        message: error.message,
+        details: error.details,
+        hint: error.hint,
+        code: error.code
+      });
+    } else if (data) {
+      console.log("✅ Chat info loaded:", {
+        id: data.id,
+        user_id: data.user_id,
+        status: data.status,
+        created_at: data.created_at
+      });
       setChatInfo(data);
+    } else {
+      console.warn("⚠️ No chat info found for chat_id:", id);
     }
   };
 

@@ -5,7 +5,6 @@ import {
   Filter, 
   Calendar, 
   MessageSquare, 
-  Clock, 
   Archive,
   Zap,
   Sparkles,
@@ -42,7 +41,17 @@ export default function History() {
   ];
 
   useEffect(() => {
-    if (!user || !user.username) return;
+    if (!user) {
+      console.log("⏳ Waiting for user to load...");
+      return;
+    }
+    
+    if (!user.username && !user.email) {
+      console.warn("⚠️ User object missing username and email");
+      return;
+    }
+    
+    console.log("🔄 Loading chats for user:", user.username || user.email);
     loadChats();
   }, [user]);
 
@@ -53,28 +62,152 @@ export default function History() {
   const loadChats = async () => {
     setLoading(true);
 
-    // Get user_id UUID (chats.user_id references auth_users.id which is a UUID)
-    const userId = await getUserIdForChat(user);
-    if (!userId) {
-      console.error("❌ Could not determine user_id UUID");
-      toast.error("Failed to load chat history");
+    // Validate user object first
+    if (!user) {
+      console.error("❌ No user object available");
+      toast.error("Please log in to view chat history");
       setLoading(false);
       return;
     }
 
-    // 🔥 Only load CLOSED chats
+    // Get user_id UUID (chats.user_id references public.users.id which is a UUID)
+    const userId = await getUserIdForChat(user);
+    if (!userId) {
+      console.error("❌ Could not determine user_id UUID");
+      console.error("User object:", user);
+      console.error("This usually means the user doesn't exist in public.users table");
+      toast.error("Failed to load chat history. Please log out and log in again.");
+      setChats([]);
+      setLoading(false);
+      return;
+    }
+
+    // 🔒 Double-check: Ensure userId is a valid UUID format
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (!uuidRegex.test(userId)) {
+      console.error("❌ Invalid user_id format:", userId);
+      toast.error("Invalid user ID format. Please log out and log in again.");
+      setChats([]);
+      setLoading(false);
+      return;
+    }
+
+    console.log("🔍 Loading chats for user_id:", userId);
+    console.log("🔍 User info:", { username: user?.username, email: user?.email, user_id: user?.user_id });
+
+    // 🔍 DIAGNOSTIC: First check if user exists in public.users
+    const { data: userCheck, error: userError } = await supabase
+      .from("users")
+      .select("id, email, name")
+      .eq("id", userId)
+      .single();
+    
+    if (userError || !userCheck) {
+      console.error("❌ User not found in public.users table:", userError);
+      console.error("Attempted user_id:", userId);
+      toast.error("User account not found. Please log out and log in again.");
+      setChats([]);
+      setLoading(false);
+      return;
+    }
+    
+    console.log("✅ User verified in database:", userCheck);
+
+    // 🔍 DIAGNOSTIC: Check what user_ids exist in chats table (for debugging)
+    const { data: allChatsDebug, error: debugError } = await supabase
+      .from("chats")
+      .select("user_id, status, id, created_at")
+      .limit(10);
+    
+    if (!debugError && allChatsDebug) {
+      console.log("🔍 DIAGNOSTIC: Sample chats in database:", allChatsDebug);
+      const uniqueUserIds = [...new Set(allChatsDebug.map(c => c.user_id))];
+      console.log("🔍 DIAGNOSTIC: Unique user_ids in chats table:", uniqueUserIds);
+      console.log("🔍 DIAGNOSTIC: Looking for user_id:", userId);
+      console.log("🔍 DIAGNOSTIC: Match found?", uniqueUserIds.includes(userId));
+    }
+
+    // 🔍 DIAGNOSTIC: Check all chats for this user (both active and closed)
+    const { data: allChats, error: allChatsError } = await supabase
+      .from("chats")
+      .select("*")
+      .eq("user_id", userId)
+      .order("created_at", { ascending: false });
+    
+    if (allChatsError) {
+      console.error("❌ Error loading all chats:", allChatsError);
+    } else {
+      console.log(`📊 Found ${allChats?.length || 0} total chats for user (active + non-active)`);
+      if (allChats && allChats.length > 0) {
+        const activeCount = allChats.filter(c => c.status === "active").length;
+        const closedCount = allChats.filter(c => c.status === "closed").length;
+        const otherStatusCount = allChats.filter(c => c.status !== "active" && c.status !== "closed").length;
+        console.log(`   - Active: ${activeCount}`);
+        console.log(`   - Closed: ${closedCount}`);
+        if (otherStatusCount > 0) {
+          console.log(`   - Other statuses: ${otherStatusCount}`);
+          const otherStatuses = [...new Set(allChats.filter(c => c.status !== "active" && c.status !== "closed").map(c => c.status))];
+          console.log(`   - Status types: ${otherStatuses.join(", ")}`);
+        }
+        console.log("   - Chat IDs:", allChats.map(c => ({ id: c.id, status: c.status, user_id: c.user_id })));
+      }
+    }
+
+    // 🔥 Load ALL chats for this specific user (including active, closed, and any other status)
+    // Using explicit filter to ensure we only get this user's chats
     const { data, error } = await supabase
       .from("chats")
       .select("*")
-      .eq("user_id", userId) // Now using UUID instead of username string
-      .eq("status", "closed") // 🔥 Only show closed chats
+      .eq("user_id", userId) // Filter by user_id UUID - CRITICAL for security
       .order("created_at", { ascending: false });
 
     if (error) {
-      console.error(error);
-      toast.error("Failed to load mission archives");
+      console.error("❌ Error loading chats:", error);
+      console.error("Error details:", {
+        message: error.message,
+        details: error.details,
+        hint: error.hint,
+        code: error.code
+      });
+      toast.error(`Failed to load mission archives: ${error.message}`);
+      setChats([]);
     } else {
-      setChats(data || []);
+      // 🔒 Security check: Verify all returned chats belong to this user
+      const validChats = (data || []).filter(chat => {
+        if (chat.user_id !== userId) {
+          console.warn(`⚠️ Security: Chat ${chat.id} has user_id ${chat.user_id} but expected ${userId}`);
+          return false;
+        }
+        return true;
+      });
+
+      console.log(`✅ Loaded ${validChats.length} chats for user (filtered from ${data?.length || 0} total)`);
+      console.log("📋 All returned chats from query:", data?.map(c => ({ 
+        id: c.id, 
+        status: c.status || "NULL", 
+        user_id: c.user_id,
+        created_at: c.created_at 
+      })) || []);
+      console.log("✅ Valid chats after security filter:", validChats.map(c => ({ 
+        id: c.id, 
+        status: c.status || "NULL",
+        created_at: c.created_at 
+      })));
+      
+      // 🔍 Compare with allChats diagnostic to see what's missing
+      if (allChats && allChats.length > validChats.length) {
+        const missingChats = allChats.filter(ac => 
+          !validChats.some(vc => vc.id === ac.id)
+        );
+        console.warn(`⚠️ Found ${missingChats.length} chat(s) that didn't match the query:`);
+        console.warn("Missing chats:", missingChats.map(c => ({ 
+          id: c.id, 
+          status: c.status || "NULL", 
+          user_id: c.user_id 
+        })));
+      }
+      
+      setChats(validChats);
     }
 
     setLoading(false);
@@ -378,8 +511,7 @@ export default function History() {
                               <div className="flex items-center gap-2 text-cyan-300/60 text-sm">
                                 <Calendar className="w-3 h-3" />
                                 <span>{new Date(chat.created_at).toLocaleDateString()}</span>
-                                <Clock className="w-3 h-3 ml-2" />
-                                <span>{new Date(chat.created_at).toLocaleTimeString()}</span>
+                                
                               </div>
                             </div>
                           </div>

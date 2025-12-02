@@ -21,10 +21,23 @@
       "webhookId": "a8f9e66d-008c-4256-9400-a364e05b6c2c",
       "credentials": {
         "jwtAuth": {
-          "id": "BfzFP9N8sYe7OI2j",
-          "name": "JWT Auth account"
+          "id": "RK03buPskdFAJmO9",
+          "name": "JWT Auth account 2"
         }
       }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Prepare survey data, only include ticket_id if it's not null\nconst ticketId = $json.body.ticket_id;\nconst surveyData = {\n  user_id: $json.jwtPayload.user_id,\n  rating: parseInt($json.body.rating) || null,\n  notes: $json.body.notes || null\n};\n\n// Only add ticket_id if it exists and is not null\nif (ticketId && ticketId !== 'null' && ticketId !== '') {\n  surveyData.ticket_id = ticketId;\n}\n\nreturn [{\n  json: surveyData\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "prepare-survey-data",
+      "name": "Prepare Survey Data"
     },
     {
       "parameters": {
@@ -33,15 +46,19 @@
           "fieldValues": [
             {
               "fieldId": "user_id",
-              "fieldValue": "={{ $json.jwtPayload.username }}"
+              "fieldValue": "={{ $json.user_id }}"
+            },
+            {
+              "fieldId": "ticket_id",
+              "fieldValue": "={{ $json.ticket_id }}"
             },
             {
               "fieldId": "rating",
-              "fieldValue": "={{ $json.body.rating }}"
+              "fieldValue": "={{ $json.rating }}"
             },
             {
               "fieldId": "notes",
-              "fieldValue": "={{ $json.body.notes }}"
+              "fieldValue": "={{ $json.notes }}"
             }
           ]
         }
@@ -49,7 +66,7 @@
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
       "position": [
-        208,
+        416,
         0
       ],
       "id": "a3a92902-1399-4fcb-bad6-524134bf545c",
@@ -65,6 +82,17 @@
   "pinData": {},
   "connections": {
     "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Prepare Survey Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Survey Data": {
       "main": [
         [
           {

@@ -393,7 +393,6 @@ model auth_users {
   one_time_tokens             one_time_tokens[]
   sessions                    sessions[]
   feedback                    feedback[]
-  survey_responses            survey_responses[]
 
   @@index([instance_id])
   @@index([is_anonymous])
@@ -459,14 +458,14 @@ model messages {
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model survey_responses {
-  id         String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  ticket_id  String     @db.Uuid
-  user_id    String     @db.Uuid
+  id         String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  ticket_id  String?      @db.Uuid
+  user_id    String       @db.Uuid
   rating     Int?
   notes      String?
-  created_at DateTime?  @default(now()) @db.Timestamp(6)
-  tickets    tickets    @relation(fields: [ticket_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  users      auth_users @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  created_at DateTime?    @default(now()) @db.Timestamp(6)
+  tickets    tickets?     @relation(fields: [ticket_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users      public_users @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
   @@schema("public")
 }
@@ -499,6 +498,7 @@ model public_users {
   chats            chats[]
   messages         messages[]
   tickets          tickets[]
+  survey_responses survey_responses[]
 
   @@map("users")
   @@schema("public")
