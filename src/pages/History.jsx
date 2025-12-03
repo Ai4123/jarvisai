@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { 
-  Search, 
-  Filter, 
-  Calendar, 
-  MessageSquare, 
+import {
+  Search,
+  Filter,
+  Calendar,
+  MessageSquare,
   Archive,
   Zap,
   Sparkles,
@@ -45,12 +45,12 @@ export default function History() {
       console.log("⏳ Waiting for user to load...");
       return;
     }
-    
+
     if (!user.username && !user.email) {
       console.warn("⚠️ User object missing username and email");
       return;
     }
-    
+
     console.log("🔄 Loading chats for user:", user.username || user.email);
     loadChats();
   }, [user]);
@@ -101,7 +101,7 @@ export default function History() {
       .select("id, email, name")
       .eq("id", userId)
       .single();
-    
+
     if (userError || !userCheck) {
       console.error("❌ User not found in public.users table:", userError);
       console.error("Attempted user_id:", userId);
@@ -110,7 +110,7 @@ export default function History() {
       setLoading(false);
       return;
     }
-    
+
     console.log("✅ User verified in database:", userCheck);
 
     // 🔍 DIAGNOSTIC: Check what user_ids exist in chats table (for debugging)
@@ -118,7 +118,7 @@ export default function History() {
       .from("chats")
       .select("user_id, status, id, created_at")
       .limit(10);
-    
+
     if (!debugError && allChatsDebug) {
       console.log("🔍 DIAGNOSTIC: Sample chats in database:", allChatsDebug);
       const uniqueUserIds = [...new Set(allChatsDebug.map(c => c.user_id))];
@@ -133,7 +133,7 @@ export default function History() {
       .select("*")
       .eq("user_id", userId)
       .order("created_at", { ascending: false });
-    
+
     if (allChatsError) {
       console.error("❌ Error loading all chats:", allChatsError);
     } else {
@@ -182,31 +182,31 @@ export default function History() {
       });
 
       console.log(`✅ Loaded ${validChats.length} chats for user (filtered from ${data?.length || 0} total)`);
-      console.log("📋 All returned chats from query:", data?.map(c => ({ 
-        id: c.id, 
-        status: c.status || "NULL", 
-        user_id: c.user_id,
-        created_at: c.created_at 
-      })) || []);
-      console.log("✅ Valid chats after security filter:", validChats.map(c => ({ 
-        id: c.id, 
+      console.log("📋 All returned chats from query:", data?.map(c => ({
+        id: c.id,
         status: c.status || "NULL",
-        created_at: c.created_at 
+        user_id: c.user_id,
+        created_at: c.created_at
+      })) || []);
+      console.log("✅ Valid chats after security filter:", validChats.map(c => ({
+        id: c.id,
+        status: c.status || "NULL",
+        created_at: c.created_at
       })));
-      
+
       // 🔍 Compare with allChats diagnostic to see what's missing
       if (allChats && allChats.length > validChats.length) {
-        const missingChats = allChats.filter(ac => 
+        const missingChats = allChats.filter(ac =>
           !validChats.some(vc => vc.id === ac.id)
         );
         console.warn(`⚠️ Found ${missingChats.length} chat(s) that didn't match the query:`);
-        console.warn("Missing chats:", missingChats.map(c => ({ 
-          id: c.id, 
-          status: c.status || "NULL", 
-          user_id: c.user_id 
+        console.warn("Missing chats:", missingChats.map(c => ({
+          id: c.id,
+          status: c.status || "NULL",
+          user_id: c.user_id
         })));
       }
-      
+
       setChats(validChats);
     }
 
@@ -218,7 +218,7 @@ export default function History() {
 
     // Search filter
     if (searchTerm) {
-      filtered = filtered.filter(chat => 
+      filtered = filtered.filter(chat =>
         chat.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
         new Date(chat.created_at).toLocaleString().toLowerCase().includes(searchTerm.toLowerCase())
       );
@@ -422,7 +422,7 @@ export default function History() {
                 Reset
               </motion.button>
 
-             
+
             </div>
           </div>
         </motion.div>
@@ -465,7 +465,7 @@ export default function History() {
                 No missions found
               </h3>
               <p className="text-cyan-300/60 mb-6">
-                {chats.length === 0 
+                {chats.length === 0
                   ? "Complete your first chat session to see it here"
                   : "No missions match your current filters"
                 }
@@ -511,12 +511,12 @@ export default function History() {
                               <div className="flex items-center gap-2 text-cyan-300/60 text-sm">
                                 <Calendar className="w-3 h-3" />
                                 <span>{new Date(chat.created_at).toLocaleDateString()}</span>
-                                
+
                               </div>
                             </div>
                           </div>
                         </div>
-                        
+
                         <div className="flex items-center gap-3">
                           <div className="text-right">
                             <div className="text-cyan-300/60 text-sm">Completed</div>
@@ -524,7 +524,7 @@ export default function History() {
                               {getTimeAgo(chat.created_at)}
                             </div>
                           </div>
-                          
+
                           <motion.div
                             whileHover={{ scale: 1.1 }}
                             className="w-10 h-10 bg-cyan-500/10 rounded-xl flex items-center justify-center border border-cyan-500/20 group-hover:border-cyan-400/50 transition-colors"
@@ -533,7 +533,7 @@ export default function History() {
                           </motion.div>
                         </div>
                       </div>
-                      
+
                       {/* Progress bar for recent chats */}
                       {new Date(chat.created_at).toDateString() === new Date().toDateString() && (
                         <motion.div
