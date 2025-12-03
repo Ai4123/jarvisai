@@ -1,4 +1,4 @@
-# 🚀 Jarvis – AI Service Desk Agent
+#  Jarvis – AI Service Desk Agent
 
 **Live Deployment:** [https://jarvis-client.onrender.com](https://jarvis-client.onrender.com)
 
@@ -9,25 +9,25 @@ This project contains the **frontend (React)** and integrates with **multiple N8
 
 ---
 
-## ✨ **Core Features**
+##  **Core Features**
 
-### ✅ 1. User Authentication (JWT)
+###  1. User Authentication (JWT)
 
 * Users log in and receive a signed **JWT token**.
 * All chat, feedback, and survey routes are **JWT-protected**.
 
-### ✅ 2. RAG-based Chat Agent
+###  2. RAG-based Chat Agent
 
 * Uses **Supabase Vector Store** + **Cohere embeddings**.
 * Retrieves relevant knowledge base documents from Google Drive ingested files.
 * Ensures **no hallucinations** by restricting answers to the RAG context.
 
-### ✅ 3. Multi-turn Conversations
+###  3. Multi-turn Conversations
 
 * Chat history stored per user.
 * Allows continuing a chat even after page refresh.
 
-### ✅ 4. Automatic Ticket Creation
+###  4. Automatic Ticket Creation
 
 Tickets are created when:
 
@@ -45,12 +45,12 @@ Each ticket contains:
 * Priority
 * Status
 
-### ✅ 5. Feedback System
+###  5. Feedback System
 
 Frontend sends **thumbs-up/down** for every bot message.
 Stored in Supabase for analytics.
 
-### ✅ 6. Customer Satisfaction Survey
+###  6. Customer Satisfaction Survey
 
 After ticket closure, user can submit:
 
@@ -59,7 +59,7 @@ After ticket closure, user can submit:
 
 Saved in Supabase.
 
-### ✅ 7. Automatic KB Updating
+###  7. Automatic KB Updating
 
 A separate workflow watches a **Google Drive folder (“RAG documents”)**, and whenever a file is added:
 
