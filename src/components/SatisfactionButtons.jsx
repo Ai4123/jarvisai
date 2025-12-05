@@ -28,7 +28,7 @@ export default function SatisfactionButtons({ onSatisfaction }) {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="flex flex-col gap-3 p-4 jarvis-glass rounded-xl border border-cyan-500/20 max-w-md"
+      className="flex flex-col gap-3 p-4 sensi-glass rounded-xl border border-cyan-500/20 max-w-md"
     >
       {/* Header */}
       <motion.div
@@ -220,7 +220,7 @@ export default function SatisfactionButtons({ onSatisfaction }) {
         transition={{ delay: 0.3 }}
         className="text-cyan-300/40 text-xs text-center"
       >
-        Your feedback helps improve JARVIS AI assistance
+        Your feedback helps improve SENSI AI assistance
       </motion.div>
     </motion.div>
   );

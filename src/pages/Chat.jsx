@@ -618,7 +618,7 @@ export default function Chat() {
                   <Binary className="w-24 h-24 text-cyan-400 mx-auto mb-4" />
                 </motion.div>
                 <h3 className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
-                  JARVIS System Online
+                  SENSI System Online
                 </h3>
                 <p className="text-cyan-300/60 text-lg max-w-md mx-auto">
                   Advanced AI assistant ready for deployment. Initialize chat sequence to begin.
@@ -697,7 +697,7 @@ export default function Chat() {
                       <div className="w-8 h-8 border-2 border-cyan-400 border-t-transparent rounded-full"></div>
                     </motion.div>
                     <div className="space-y-2">
-                      <p className="text-cyan-300 font-medium">JARVIS Processing</p>
+                      <p className="text-cyan-300 font-medium">SENSI Processing</p>
                       <div className="flex space-x-1">
                         {[0, 1, 2].map((i) => (
                           <motion.div

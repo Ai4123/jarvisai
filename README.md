@@ -1,8 +1,8 @@
-#  Jarvis – AI Service Desk Agent
+#  Sensi – AI Service Desk Agent
 
-**Live Deployment:** [https://jarvis-client.onrender.com](https://jarvis-client.onrender.com)
+**Live Deployment:** [https://sensi-client.onrender.com](https://sensi-client.onrender.com)
 
-Jarvis is a fully functional **RAG-based AI Service Desk Agent** built using **N8N, Supabase, Google Drive, Cohere embeddings, and Google Gemini**.
+Sensi is a fully functional **RAG-based AI Service Desk Agent** built using **N8N, Supabase, Google Drive, Cohere embeddings, and Google Gemini**.
 It supports **authenticated chat**, **RAG answers**, **ticket creation**, **feedback logging**, **survey collection**, and **complete chat history persistence**.
 
 This project contains the **frontend (React)** and integrates with **multiple N8N workflows** acting as the backend logic.
@@ -167,3 +167,4 @@ Stores post-ticket user survey.
 * Feedback + Survey
 * Detailed PDF documentation
 * This README
+

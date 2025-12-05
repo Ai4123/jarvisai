@@ -133,7 +133,7 @@ export default function ChatSession() {
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="jarvis-glass rounded-2xl p-6 mb-6 border border-cyan-500/20"
+          className="sensi-glass rounded-2xl p-6 mb-6 border border-cyan-500/20"
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
@@ -147,7 +147,7 @@ export default function ChatSession() {
                 </motion.button>
               </Link>
               <div>
-                <h1 className="text-2xl font-bold jarvis-gradient-text">
+                <h1 className="text-2xl font-bold sensi-gradient-text">
                   {getChatTitle()}
                 </h1>
                 <div className="flex items-center gap-4 text-cyan-300/60 text-sm mt-1">
@@ -197,7 +197,7 @@ export default function ChatSession() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: i * 0.1 }}
-                className="jarvis-glass rounded-2xl p-4 border border-cyan-500/20 animate-pulse"
+                className="sensi-glass rounded-2xl p-4 border border-cyan-500/20 animate-pulse"
               >
                 <div className="flex items-start gap-3">
                   <div className="w-8 h-8 bg-cyan-400/20 rounded-full"></div>
@@ -214,7 +214,7 @@ export default function ChatSession() {
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="jarvis-glass rounded-2xl p-12 text-center border border-cyan-500/20"
+              className="sensi-glass rounded-2xl p-12 text-center border border-cyan-500/20"
             >
               <MessageSquare className="w-16 h-16 text-cyan-400/40 mx-auto mb-4" />
               <h3 className="text-xl font-semibold text-cyan-100 mb-2">
@@ -238,7 +238,7 @@ export default function ChatSession() {
                   className={`max-w-[80%] rounded-2xl p-4 ${
                     message.role === 'user'
                       ? 'bg-gradient-to-br from-cyan-500 to-blue-600 text-white rounded-br-none'
-                      : 'jarvis-glass border border-cyan-500/20 text-cyan-100 rounded-bl-none'
+                      : 'sensi-glass border border-cyan-500/20 text-cyan-100 rounded-bl-none'
                   }`}
                 >
                   <div className="flex items-start gap-3">

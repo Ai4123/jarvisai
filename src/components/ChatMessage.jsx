@@ -127,8 +127,8 @@ export default function ChatMessage({
                     <motion.div
                         whileHover={{ scale: 1.02 }}
                         className={`relative rounded-2xl p-4 message-bubble-hover ${isUser
-                            ? "jarvis-gradient-bg text-white rounded-br-none shadow-lg"
-                            : "jarvis-glass border border-cyan-500/30 text-cyan-100 rounded-bl-none shadow-lg"
+                            ? "sensi-gradient-bg text-white rounded-br-none shadow-lg"
+                            : "sensi-glass border border-cyan-500/30 text-cyan-100 rounded-bl-none shadow-lg"
                             } ${isClosingMessage ? 'system-message-glow' : ''}`}
                     >
                         {/* User message decoration */}
@@ -223,7 +223,7 @@ export default function ChatMessage({
                                 className={`text-xs opacity-60 font-mono tracking-wide ${isUser ? "text-right pr-12" : "text-left pl-12"}`}
                             >
                                 <span className="text-cyan-400/80">
-                                    {isUser ? "USER" : "JARVIS_AI"} • {new Date(safeMessage.created_at || Date.now()).toLocaleTimeString([], {
+                                    {isUser ? "USER" : "SENSI_AI"} • {new Date(safeMessage.created_at || Date.now()).toLocaleTimeString([], {
                                         hour: '2-digit',
                                         minute: '2-digit',
                                         hour12: false

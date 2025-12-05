@@ -66,11 +66,11 @@ export default function Profile() {
             />
           </motion.div>
           
-          <h1 className="text-4xl font-bold jarvis-gradient-text mb-2">
+          <h1 className="text-4xl font-bold sensi-gradient-text mb-2">
             User Profile
           </h1>
           <p className="text-cyan-300/60 text-lg">
-            JARVIS AI System User Information
+            SENSI AI System User Information
           </p>
         </motion.div>
 
@@ -81,7 +81,7 @@ export default function Profile() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="jarvis-glass rounded-2xl p-8 border border-cyan-500/20"
+              className="sensi-glass rounded-2xl p-8 border border-cyan-500/20"
             >
               <div className="flex items-center gap-3 mb-8">
                 <div className="w-12 h-12 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl flex items-center justify-center">
@@ -130,7 +130,7 @@ export default function Profile() {
                   <span className="text-green-400 font-semibold text-lg">Account Active</span>
                 </div>
                 <p className="text-cyan-300/60">
-                  Your JARVIS AI account is fully operational
+                  Your SENSI AI account is fully operational
                 </p>
               </motion.div>
             </motion.div>
@@ -140,7 +140,7 @@ export default function Profile() {
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="jarvis-glass rounded-2xl p-12 text-center border border-cyan-500/20"
+            className="sensi-glass rounded-2xl p-12 text-center border border-cyan-500/20"
           >
             <User className="w-16 h-16 text-cyan-400/40 mx-auto mb-4" />
             <h3 className="text-xl font-semibold text-cyan-100 mb-2">
@@ -153,7 +153,7 @@ export default function Profile() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => window.location.href = "/login"}
-              className="jarvis-gradient-button px-6 py-3 rounded-xl"
+              className="sensi-gradient-button px-6 py-3 rounded-xl"
             >
               Go to Login
             </motion.button>

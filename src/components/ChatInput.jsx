@@ -32,7 +32,7 @@ export default function ChatInput({ onSend, disabled }) {
       initial={{ y: 100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
-      className="jarvis-glass border-t border-cyan-500/20 p-6"
+      className="sensi-glass border-t border-cyan-500/20 p-6"
     >
       <div className="max-w-4xl mx-auto">
         <form onSubmit={handleSubmit} className="relative">
@@ -50,9 +50,9 @@ export default function ChatInput({ onSend, disabled }) {
                 placeholder={
                   disabled 
                     ? "🛑 Mission terminated. Session completed." 
-                    : "🎯 Transmit your message to JARVIS..."
+                    : "🎯 Transmit your message to SENSI..."
                 }
-                className="jarvis-input w-full pl-4 pr-12 py-4 text-white placeholder-cyan-300/60 disabled:opacity-50 disabled:cursor-not-allowed text-lg"
+                className="sensi-input w-full pl-4 pr-12 py-4 text-white placeholder-cyan-300/60 disabled:opacity-50 disabled:cursor-not-allowed text-lg"
               />
               
               {/* Character Counter */}
@@ -82,7 +82,7 @@ export default function ChatInput({ onSend, disabled }) {
               className={`relative p-4 rounded-xl font-semibold transition-all duration-300 overflow-hidden group ${
                 disabled || !text.trim()
                   ? 'bg-gray-600/50 text-gray-400 cursor-not-allowed'
-                  : 'jarvis-gradient-button text-white shadow-lg'
+                  : 'sensi-gradient-button text-white shadow-lg'
               }`}
             >
               <AnimatePresence mode="wait">

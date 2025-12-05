@@ -321,7 +321,7 @@ export default function History() {
           >
             <Archive className="w-10 h-10 text-white" />
           </motion.div>
-          <h1 className="text-4xl font-bold jarvis-gradient-text mb-2">
+          <h1 className="text-4xl font-bold sensi-gradient-text mb-2">
             Mission Archives
           </h1>
           <p className="text-cyan-300/60 text-lg">
@@ -336,17 +336,17 @@ export default function History() {
           transition={{ delay: 0.3 }}
           className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8"
         >
-          <div className="jarvis-glass rounded-2xl p-4 text-center border border-cyan-500/20">
+          <div className="sensi-glass rounded-2xl p-4 text-center border border-cyan-500/20">
             <div className="text-2xl font-bold text-cyan-400">{chats.length}</div>
             <div className="text-cyan-300/60 text-sm">Total Missions</div>
           </div>
-          <div className="jarvis-glass rounded-2xl p-4 text-center border border-cyan-500/20">
+          <div className="sensi-glass rounded-2xl p-4 text-center border border-cyan-500/20">
             <div className="text-2xl font-bold text-green-400">
               {chats.filter(chat => new Date(chat.created_at).toDateString() === new Date().toDateString()).length}
             </div>
             <div className="text-cyan-300/60 text-sm">Today</div>
           </div>
-          <div className="jarvis-glass rounded-2xl p-4 text-center border border-cyan-500/20">
+          <div className="sensi-glass rounded-2xl p-4 text-center border border-cyan-500/20">
             <div className="text-2xl font-bold text-purple-400">
               {chats.filter(chat => {
                 const weekAgo = new Date();
@@ -356,7 +356,7 @@ export default function History() {
             </div>
             <div className="text-cyan-300/60 text-sm">This Week</div>
           </div>
-          <div className="jarvis-glass rounded-2xl p-4 text-center border border-cyan-500/20">
+          <div className="sensi-glass rounded-2xl p-4 text-center border border-cyan-500/20">
             <div className="text-2xl font-bold text-yellow-400">
               {filteredChats.length}
             </div>
@@ -369,7 +369,7 @@ export default function History() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="jarvis-glass rounded-2xl p-6 mb-8 border border-cyan-500/20"
+          className="sensi-glass rounded-2xl p-6 mb-8 border border-cyan-500/20"
         >
           <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
             {/* Search */}
@@ -381,7 +381,7 @@ export default function History() {
                   placeholder="Search mission archives..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="jarvis-input w-full pl-10 pr-4 py-3 text-cyan-100 placeholder-cyan-300/60"
+                  className="sensi-input w-full pl-10 pr-4 py-3 text-cyan-100 placeholder-cyan-300/60"
                 />
               </div>
             </div>
@@ -391,7 +391,7 @@ export default function History() {
               <select
                 value={dateFilter}
                 onChange={(e) => setDateFilter(e.target.value)}
-                className="jarvis-input px-4 py-3 text-cyan-100"
+                className="sensi-input px-4 py-3 text-cyan-100"
               >
                 {dateFilters.map(filter => (
                   <option key={filter.value} value={filter.value} className="bg-gray-900">
@@ -403,7 +403,7 @@ export default function History() {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="jarvis-input px-4 py-3 text-cyan-100"
+                className="sensi-input px-4 py-3 text-cyan-100"
               >
                 {sortOptions.map(option => (
                   <option key={option.value} value={option.value} className="bg-gray-900">
@@ -416,7 +416,7 @@ export default function History() {
                 onClick={clearFilters}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="jarvis-btn-secondary flex items-center gap-2"
+                className="sensi-btn-secondary flex items-center gap-2"
               >
                 <Filter className="w-4 h-4" />
                 Reset
@@ -442,7 +442,7 @@ export default function History() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: i * 0.1 }}
-                className="jarvis-glass rounded-2xl p-6 border border-cyan-500/20 animate-pulse"
+                className="sensi-glass rounded-2xl p-6 border border-cyan-500/20 animate-pulse"
               >
                 <div className="flex items-center justify-between">
                   <div className="space-y-2">
@@ -458,7 +458,7 @@ export default function History() {
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="jarvis-glass rounded-2xl p-12 text-center border border-cyan-500/20"
+              className="sensi-glass rounded-2xl p-12 text-center border border-cyan-500/20"
             >
               <MessageSquare className="w-16 h-16 text-cyan-400/40 mx-auto mb-4" />
               <h3 className="text-xl font-semibold text-cyan-100 mb-2">
@@ -475,7 +475,7 @@ export default function History() {
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="jarvis-gradient-button flex items-center gap-2 mx-auto"
+                    className="sensi-gradient-button flex items-center gap-2 mx-auto"
                   >
                     <Zap className="w-4 h-4" />
                     Start First Mission
@@ -497,7 +497,7 @@ export default function History() {
                   className="group"
                 >
                   <Link to={`/chat/${chat.id}`}>
-                    <div className="jarvis-glass rounded-2xl p-6 border border-cyan-500/20 hover:border-cyan-400/50 transition-all duration-300 hover:shadow-2xl hover:shadow-cyan-500/10">
+                    <div className="sensi-glass rounded-2xl p-6 border border-cyan-500/20 hover:border-cyan-400/50 transition-all duration-300 hover:shadow-2xl hover:shadow-cyan-500/10">
                       <div className="flex items-center justify-between">
                         <div className="flex-1">
                           <div className="flex items-center gap-3 mb-2">

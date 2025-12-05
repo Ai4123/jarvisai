@@ -103,7 +103,7 @@ const handleSkip = () => {
       <span>Redirecting to mission archives...</span>
     </div>,
     {
-      className: 'jarvis-toast',
+      className: 'sensi-toast',
       duration: 3000,
     }
   );
@@ -161,7 +161,7 @@ const handleSkip = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 jarvis-glass flex items-center justify-center z-50 p-4"
+          className="fixed inset-0 sensi-glass flex items-center justify-center z-50 p-4"
         >
           {/* Animated Background */}
           <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-blue-500/5 to-purple-500/5 animate-matrix" />
@@ -195,10 +195,10 @@ const handleSkip = () => {
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.8, opacity: 0, y: -50 }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="jarvis-glass border border-cyan-500/30 rounded-2xl shadow-2xl w-full max-w-md relative overflow-hidden"
+            className="sensi-glass border border-cyan-500/30 rounded-2xl shadow-2xl w-full max-w-md relative overflow-hidden"
           >
             {/* Header */}
-            <div className="jarvis-gradient-bg p-6 text-center">
+            <div className="sensi-gradient-bg p-6 text-center">
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
@@ -211,7 +211,7 @@ const handleSkip = () => {
                 Mission Complete!
               </h2>
               <p className="text-cyan-100/80">
-                Rate your JARVIS AI experience
+                Rate your SENSI AI experience
               </p>
             </div>
 
@@ -242,7 +242,7 @@ const handleSkip = () => {
                     placeholder="Share your thoughts on the AI assistance, response quality, or suggestions for improvement..."
                     value={feedback}
                     onChange={(e) => setFeedback(e.target.value)}
-                    className="jarvis-input w-full h-32 resize-none transition-all duration-300"
+                    className="sensi-input w-full h-32 resize-none transition-all duration-300"
                   />
                 </div>
 
@@ -255,7 +255,7 @@ const handleSkip = () => {
                   className={`w-full py-4 rounded-xl font-semibold transition-all duration-300 relative overflow-hidden group ${
                     loading || !rating
                       ? 'bg-gray-600/50 text-gray-400 cursor-not-allowed'
-                      : 'jarvis-gradient-button text-white shadow-lg'
+                      : 'sensi-gradient-button text-white shadow-lg'
                   }`}
                 >
                   <AnimatePresence mode="wait">
@@ -323,9 +323,9 @@ const handleSkip = () => {
             </div>
 
             {/* Footer */}
-            <div className="jarvis-glass-light border-t border-cyan-500/20 p-4 text-center">
+            <div className="sensi-glass-light border-t border-cyan-500/20 p-4 text-center">
               <p className="text-cyan-300/40 text-sm">
-                Your feedback helps improve JARVIS AI systems
+                Your feedback helps improve SENSI AI systems
               </p>
             </div>
           </motion.div>

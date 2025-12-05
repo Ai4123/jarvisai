@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* ===== FUTURISTIC JARVIS THEME ===== */
+/* ===== FUTURISTIC SENSI THEME ===== */
 
 /* Custom Animations */
 @keyframes fadeIn {
@@ -176,30 +176,30 @@
 }
 
 /* Custom Utility Classes */
-.jarvis-bg {
+.sensi-bg {
   background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #581c87 100%);
 }
 
-.jarvis-glass {
+.sensi-glass {
   background: rgba(15, 23, 42, 0.7);
   backdrop-filter: blur(20px);
   border: 1px solid rgba(34, 211, 238, 0.2);
 }
 
-.jarvis-glass-light {
+.sensi-glass-light {
   background: rgba(15, 23, 42, 0.4);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(34, 211, 238, 0.1);
 }
 
-.jarvis-gradient-border {
+.sensi-gradient-border {
   position: relative;
   background: linear-gradient(135deg, #0f172a, #1e3a8a);
   padding: 1px;
   border-radius: 12px;
 }
 
-.jarvis-gradient-border::before {
+.sensi-gradient-border::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -212,29 +212,29 @@
   -webkit-mask-composite: xor;
 }
 
-.jarvis-gradient-text {
+.sensi-gradient-text {
   background: linear-gradient(135deg, #00ffff 0%, #3b82f6 50%, #8b5cf6 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-.jarvis-gradient-bg {
+.sensi-gradient-bg {
   background: linear-gradient(135deg, #00ffff 0%, #3b82f6 50%, #8b5cf6 100%);
 }
 
-.jarvis-gradient-button {
+.sensi-gradient-button {
   background: linear-gradient(135deg, #00ffff 0%, #3b82f6 100%);
   transition: all 0.3s ease;
 }
 
-.jarvis-gradient-button:hover {
+.sensi-gradient-button:hover {
   background: linear-gradient(135deg, #00ffff 0%, #3b82f6 50%, #8b5cf6 100%);
   transform: translateY(-2px);
   box-shadow: 0 10px 25px rgba(0, 255, 255, 0.3);
 }
 
-.jarvis-particle {
+.sensi-particle {
   position: absolute;
   width: 2px;
   height: 2px;
@@ -244,19 +244,19 @@
   animation: float 8s ease-in-out infinite;
 }
 
-.jarvis-grid {
+.sensi-grid {
   background-image: 
     linear-gradient(rgba(34, 211, 238, 0.1) 1px, transparent 1px),
     linear-gradient(90deg, rgba(34, 211, 238, 0.1) 1px, transparent 1px);
   background-size: 50px 50px;
 }
 
-.jarvis-scanline {
+.sensi-scanline {
   position: relative;
   overflow: hidden;
 }
 
-.jarvis-scanline::after {
+.sensi-scanline::after {
   content: '';
   position: absolute;
   top: 0;
@@ -296,24 +296,24 @@
 }
 
 /* Loading Animation */
-.jarvis-loading {
+.sensi-loading {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.jarvis-loading-dot {
+.sensi-loading-dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
   background: #00ffff;
-  animation: jarvis-bounce 1.4s infinite ease-in-out;
+  animation: sensi-bounce 1.4s infinite ease-in-out;
 }
 
-.jarvis-loading-dot:nth-child(1) { animation-delay: -0.32s; }
-.jarvis-loading-dot:nth-child(2) { animation-delay: -0.16s; }
+.sensi-loading-dot:nth-child(1) { animation-delay: -0.32s; }
+.sensi-loading-dot:nth-child(2) { animation-delay: -0.16s; }
 
-@keyframes jarvis-bounce {
+@keyframes sensi-bounce {
   0%, 80%, 100% {
     transform: scale(0);
   }
@@ -323,55 +323,55 @@
 }
 
 /* Custom Scrollbar */
-.jarvis-scrollbar::-webkit-scrollbar {
+.sensi-scrollbar::-webkit-scrollbar {
   width: 6px;
 }
 
-.jarvis-scrollbar::-webkit-scrollbar-track {
+.sensi-scrollbar::-webkit-scrollbar-track {
   background: rgba(15, 23, 42, 0.5);
   border-radius: 3px;
 }
 
-.jarvis-scrollbar::-webkit-scrollbar-thumb {
+.sensi-scrollbar::-webkit-scrollbar-thumb {
   background: linear-gradient(135deg, #00ffff, #3b82f6);
   border-radius: 3px;
 }
 
-.jarvis-scrollbar::-webkit-scrollbar-thumb:hover {
+.sensi-scrollbar::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(135deg, #00ffff, #8b5cf6);
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .jarvis-glass {
+  .sensi-glass {
     backdrop-filter: blur(10px);
   }
   
-  .jarvis-gradient-text {
+  .sensi-gradient-text {
     font-size: 1.5rem;
   }
 }
 
 /* Focus States */
-.jarvis-focus:focus {
+.sensi-focus:focus {
   outline: none;
   box-shadow: 0 0 0 3px rgba(0, 255, 255, 0.3);
   border-color: #00ffff;
 }
 
 /* Hover Effects */
-.jarvis-hover:hover {
+.sensi-hover:hover {
   transform: translateY(-2px);
   transition: all 0.3s ease;
 }
 
-.jarvis-hover-glow:hover {
+.sensi-hover-glow:hover {
   box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
   transition: all 0.3s ease;
 }
 
 /* Pulse Animation for Notifications */
-.jarvis-pulse-notification {
+.sensi-pulse-notification {
   animation: pulse-glow 2s infinite;
 }
 

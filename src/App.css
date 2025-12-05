@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* ===== JARVIS FUTURISTIC THEME ===== */
+/* ===== SENSI FUTURISTIC THEME ===== */
 
 /* Custom Animations */
 @keyframes fadeIn {
@@ -189,30 +189,30 @@
 }
 
 /* Custom Utility Classes */
-.jarvis-bg {
+.sensi-bg {
   background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #581c87 100%);
 }
 
-.jarvis-glass {
+.sensi-glass {
   background: rgba(15, 23, 42, 0.7);
   backdrop-filter: blur(20px);
   border: 1px solid rgba(34, 211, 238, 0.2);
 }
 
-.jarvis-glass-light {
+.sensi-glass-light {
   background: rgba(15, 23, 42, 0.4);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(34, 211, 238, 0.1);
 }
 
-.jarvis-gradient-border {
+.sensi-gradient-border {
   position: relative;
   background: linear-gradient(135deg, #0f172a, #1e3a8a);
   padding: 1px;
   border-radius: 12px;
 }
 
-.jarvis-gradient-border::before {
+.sensi-gradient-border::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -225,29 +225,29 @@
   -webkit-mask-composite: xor;
 }
 
-.jarvis-gradient-text {
+.sensi-gradient-text {
   background: linear-gradient(135deg, #00ffff 0%, #3b82f6 50%, #8b5cf6 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-.jarvis-gradient-bg {
+.sensi-gradient-bg {
   background: linear-gradient(135deg, #00ffff 0%, #3b82f6 50%, #8b5cf6 100%);
 }
 
-.jarvis-gradient-button {
+.sensi-gradient-button {
   background: linear-gradient(135deg, #00ffff 0%, #3b82f6 100%);
   transition: all 0.3s ease;
 }
 
-.jarvis-gradient-button:hover {
+.sensi-gradient-button:hover {
   background: linear-gradient(135deg, #00ffff 0%, #3b82f6 50%, #8b5cf6 100%);
   transform: translateY(-2px);
   box-shadow: 0 10px 25px rgba(0, 255, 255, 0.3);
 }
 
-.jarvis-particle {
+.sensi-particle {
   position: absolute;
   width: 2px;
   height: 2px;
@@ -257,19 +257,19 @@
   animation: float 8s ease-in-out infinite;
 }
 
-.jarvis-grid {
+.sensi-grid {
   background-image: 
     linear-gradient(rgba(34, 211, 238, 0.1) 1px, transparent 1px),
     linear-gradient(90deg, rgba(34, 211, 238, 0.1) 1px, transparent 1px);
   background-size: 50px 50px;
 }
 
-.jarvis-scanline {
+.sensi-scanline {
   position: relative;
   overflow: hidden;
 }
 
-.jarvis-scanline::after {
+.sensi-scanline::after {
   content: '';
   position: absolute;
   top: 0;
@@ -281,24 +281,24 @@
 }
 
 /* Loading Animation */
-.jarvis-loading {
+.sensi-loading {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.jarvis-loading-dot {
+.sensi-loading-dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
   background: #00ffff;
-  animation: jarvis-bounce 1.4s infinite ease-in-out;
+  animation: sensi-bounce 1.4s infinite ease-in-out;
 }
 
-.jarvis-loading-dot:nth-child(1) { animation-delay: -0.32s; }
-.jarvis-loading-dot:nth-child(2) { animation-delay: -0.16s; }
+.sensi-loading-dot:nth-child(1) { animation-delay: -0.32s; }
+.sensi-loading-dot:nth-child(2) { animation-delay: -0.16s; }
 
-@keyframes jarvis-bounce {
+@keyframes sensi-bounce {
   0%, 80%, 100% {
     transform: scale(0);
   }
@@ -308,21 +308,21 @@
 }
 
 /* Custom Scrollbar */
-.jarvis-scrollbar::-webkit-scrollbar {
+.sensi-scrollbar::-webkit-scrollbar {
   width: 6px;
 }
 
-.jarvis-scrollbar::-webkit-scrollbar-track {
+.sensi-scrollbar::-webkit-scrollbar-track {
   background: rgba(15, 23, 42, 0.5);
   border-radius: 3px;
 }
 
-.jarvis-scrollbar::-webkit-scrollbar-thumb {
+.sensi-scrollbar::-webkit-scrollbar-thumb {
   background: linear-gradient(135deg, #00ffff, #3b82f6);
   border-radius: 3px;
 }
 
-.jarvis-scrollbar::-webkit-scrollbar-thumb:hover {
+.sensi-scrollbar::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(135deg, #00ffff, #8b5cf6);
 }
 
@@ -350,25 +350,25 @@
 }
 
 /* Focus States */
-.jarvis-focus:focus {
+.sensi-focus:focus {
   outline: none;
   box-shadow: 0 0 0 3px rgba(0, 255, 255, 0.3);
   border-color: #00ffff;
 }
 
 /* Hover Effects */
-.jarvis-hover:hover {
+.sensi-hover:hover {
   transform: translateY(-2px);
   transition: all 0.3s ease;
 }
 
-.jarvis-hover-glow:hover {
+.sensi-hover-glow:hover {
   box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
   transition: all 0.3s ease;
 }
 
 /* Pulse Animation for Notifications */
-.jarvis-pulse-notification {
+.sensi-pulse-notification {
   animation: pulse-glow 2s infinite;
 }
 
@@ -384,7 +384,7 @@
 }
 
 /* Toast Customization */
-.jarvis-toast {
+.sensi-toast {
   background: rgba(15, 23, 42, 0.9) !important;
   backdrop-filter: blur(20px);
   border: 1px solid rgba(34, 211, 238, 0.3);
@@ -393,24 +393,24 @@
 }
 
 /* Navbar Styling */
-.jarvis-navbar {
+.sensi-navbar {
   background: rgba(15, 23, 42, 0.8);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(34, 211, 238, 0.2);
 }
 
-.jarvis-nav-item {
+.sensi-nav-item {
   position: relative;
   color: #cbd5e1;
   transition: all 0.3s ease;
 }
 
-.jarvis-nav-item:hover {
+.sensi-nav-item:hover {
   color: #00ffff;
   transform: translateY(-1px);
 }
 
-.jarvis-nav-item::after {
+.sensi-nav-item::after {
   content: '';
   position: absolute;
   bottom: -2px;
@@ -421,20 +421,20 @@
   transition: width 0.3s ease;
 }
 
-.jarvis-nav-item:hover::after {
+.sensi-nav-item:hover::after {
   width: 100%;
 }
 
-.jarvis-nav-active {
+.sensi-nav-active {
   color: #00ffff;
 }
 
-.jarvis-nav-active::after {
+.sensi-nav-active::after {
   width: 100%;
 }
 
 /* Card Styling */
-.jarvis-card {
+.sensi-card {
   background: rgba(15, 23, 42, 0.6);
   backdrop-filter: blur(20px);
   border: 1px solid rgba(34, 211, 238, 0.2);
@@ -442,14 +442,14 @@
   transition: all 0.3s ease;
 }
 
-.jarvis-card:hover {
+.sensi-card:hover {
   border-color: rgba(34, 211, 238, 0.4);
   transform: translateY(-4px);
   box-shadow: 0 20px 40px rgba(0, 255, 255, 0.1);
 }
 
 /* Input Styling */
-.jarvis-input {
+.sensi-input {
   background: rgba(15, 23, 42, 0.6);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(34, 211, 238, 0.3);
@@ -458,18 +458,18 @@
   transition: all 0.3s ease;
 }
 
-.jarvis-input:focus {
+.sensi-input:focus {
   border-color: #00ffff;
   box-shadow: 0 0 0 3px rgba(0, 255, 255, 0.1);
   outline: none;
 }
 
-.jarvis-input::placeholder {
+.sensi-input::placeholder {
   color: rgba(203, 213, 225, 0.6);
 }
 
 /* Button Variants */
-.jarvis-btn-primary {
+.sensi-btn-primary {
   background: linear-gradient(135deg, #00ffff 0%, #3b82f6 100%);
   color: white;
   border: none;
@@ -479,13 +479,13 @@
   transition: all 0.3s ease;
 }
 
-.jarvis-btn-primary:hover {
+.sensi-btn-primary:hover {
   background: linear-gradient(135deg, #00ffff 0%, #3b82f6 50%, #8b5cf6 100%);
   transform: translateY(-2px);
   box-shadow: 0 10px 25px rgba(0, 255, 255, 0.3);
 }
 
-.jarvis-btn-secondary {
+.sensi-btn-secondary {
   background: rgba(15, 23, 42, 0.6);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(34, 211, 238, 0.3);
@@ -496,7 +496,7 @@
   transition: all 0.3s ease;
 }
 
-.jarvis-btn-secondary:hover {
+.sensi-btn-secondary:hover {
   border-color: #00ffff;
   background: rgba(0, 255, 255, 0.1);
   transform: translateY(-2px);
@@ -505,15 +505,15 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .jarvis-glass {
+  .sensi-glass {
     backdrop-filter: blur(10px);
   }
   
-  .jarvis-gradient-text {
+  .sensi-gradient-text {
     font-size: 1.5rem;
   }
   
-  .jarvis-card {
+  .sensi-card {
     border-radius: 12px;
   }
 }
@@ -531,7 +531,7 @@ body {
 }
 
 /* Ensure proper stacking context */
-.jarvis-container {
+.sensi-container {
   position: relative;
   z-index: 1;
 }
@@ -811,24 +811,24 @@ body {
 
 
 /* Navbar specific styles */
-.jarvis-navbar {
+.sensi-navbar {
   background: rgba(15, 23, 42, 0.8);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(34, 211, 238, 0.2);
 }
 
-.jarvis-nav-item {
+.sensi-nav-item {
   position: relative;
   color: #cbd5e1;
   transition: all 0.3s ease;
 }
 
-.jarvis-nav-item:hover {
+.sensi-nav-item:hover {
   color: #00ffff;
   transform: translateY(-1px);
 }
 
-.jarvis-nav-item::after {
+.sensi-nav-item::after {
   content: '';
   position: absolute;
   bottom: -2px;
@@ -839,21 +839,21 @@ body {
   transition: width 0.3s ease;
 }
 
-.jarvis-nav-item:hover::after {
+.sensi-nav-item:hover::after {
   width: 100%;
 }
 
-.jarvis-nav-active {
+.sensi-nav-active {
   color: #00ffff;
 }
 
-.jarvis-nav-active::after {
+.sensi-nav-active::after {
   width: 100%;
 }
 
 /* Mobile responsive navbar */
 @media (max-width: 768px) {
-  .jarvis-navbar {
+  .sensi-navbar {
     padding: 12px 16px;
   }
   
@@ -1069,24 +1069,24 @@ body {
 }
 
 /* Ensure content is readable over video */
-.jarvis-container {
+.sensi-container {
   position: relative;
   z-index: 1;
 }
 
 /* Adjust glass effects for better visibility over video */
-.jarvis-glass {
+.sensi-glass {
   background: rgba(15, 23, 42, 0.85) !important;
   backdrop-filter: blur(20px) saturate(180%);
 }
 
-.jarvis-glass-light {
+.sensi-glass-light {
   background: rgba(15, 23, 42, 0.7) !important;
   backdrop-filter: blur(15px) saturate(180%);
 }
 
 /* Enhance text readability */
-.jarvis-gradient-text {
+.sensi-gradient-text {
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
@@ -1095,16 +1095,16 @@ body {
 }
 
 /* Improve button visibility */
-.jarvis-gradient-button {
+.sensi-gradient-button {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
-.jarvis-btn-secondary {
+.sensi-btn-secondary {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
 /* Adjust navbar for video background */
-.jarvis-navbar {
+.sensi-navbar {
   background: rgba(15, 23, 42, 0.9) !important;
   backdrop-filter: blur(20px) saturate(180%);
 }
@@ -1120,7 +1120,7 @@ body {
   z-index: 0;
 }
 
-.jarvis-particle {
+.sensi-particle {
   position: absolute;
   background: #00ffff;
   border-radius: 50%;
@@ -1128,7 +1128,7 @@ body {
 }
 
 /* Enhanced scanline effect */
-.jarvis-scanline::after {
+.sensi-scanline::after {
   content: '';
   position: absolute;
   top: 0;
@@ -1162,7 +1162,7 @@ body {
 }
 
 /* Ensure toast messages are visible */
-.jarvis-toast {
+.sensi-toast {
   backdrop-filter: blur(20px) saturate(180%) !important;
   background: rgba(15, 23, 42, 0.95) !important;
   border: 1px solid rgba(34, 211, 238, 0.4) !important;
@@ -1170,13 +1170,13 @@ body {
 }
 
 /* Improve input field visibility */
-.jarvis-input {
+.sensi-input {
   background: rgba(15, 23, 42, 0.8) !important;
   backdrop-filter: blur(10px) saturate(180%);
   border: 1px solid rgba(34, 211, 238, 0.4) !important;
 }
 
-.jarvis-input:focus {
+.sensi-input:focus {
   border-color: #00ffff !important;
   box-shadow: 0 0 0 3px rgba(0, 255, 255, 0.1) !important;
 }

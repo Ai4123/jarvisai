@@ -24,7 +24,7 @@ function ProtectedRoute({ children }) {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="jarvis-loading">
+        <div className="sensi-loading">
           <div className="loading-spinner"></div>
           <p className="text-cyan-400 mt-4 font-mono">Authenticating...</p>
         </div>
@@ -49,7 +49,7 @@ function PublicRoute({ children }) {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="jarvis-loading">
+        <div className="sensi-loading">
           <div className="loading-spinner"></div>
           <p className="text-cyan-400 mt-4 font-mono">Loading...</p>
         </div>
@@ -92,7 +92,7 @@ const FloatingParticles = () => (
     {[...Array(15)].map((_, i) => (
       <div
         key={i}
-        className="jarvis-particle"
+        className="sensi-particle"
         style={{
           left: `${Math.random() * 100}%`,
           top: `${Math.random() * 100}%`,
@@ -122,7 +122,7 @@ export default function App() {
           <FloatingParticles />
           
           {/* 🔮 Scanline Effect */}
-          <div className="jarvis-scanline fixed inset-0 pointer-events-none z-0" />
+          <div className="sensi-scanline fixed inset-0 pointer-events-none z-0" />
           
           {/* 🎯 Main Content */}
           <div className="relative z-10">
@@ -132,7 +132,7 @@ export default function App() {
             <Toaster 
               position="top-right" 
               toastOptions={{
-                className: 'jarvis-toast',
+                className: 'sensi-toast',
                 duration: 4000,
                 style: {
                   background: 'rgba(15, 23, 42, 0.95)',
@@ -160,7 +160,7 @@ export default function App() {
               }}
             />
 
-            <main className="jarvis-container">
+            <main className="sensi-container">
               <Routes>
                 {/* 🔐 LOGIN PAGE - Public route */}
                 <Route 

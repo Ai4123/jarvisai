@@ -31,8 +31,8 @@
                     "conditions": [
                         {
                             "keyName": "email",
-                            "condition": "eq",
-                            "keyValue": "={{ $json.body.email }}"
+                            "condition": "ilike",
+                            "keyValue": "={{ $('Webhook').first().json.body.email.trim() }}"
                         }
                     ]
                 }
@@ -142,7 +142,7 @@
                         },
                         {
                             "fieldId": "email",
-                            "fieldValue": "={{ $('Webhook').first().json.body.email }}"
+                            "fieldValue": "={{ $('Webhook').first().json.body.email.trim().toLowerCase() }}"
                         }
                     ]
                 }
@@ -169,7 +169,7 @@
                         {
                             "id": "get-new-user-id",
                             "name": "user_id",
-                            "value": "={{ $json.id }}",
+                            "value": "={{ $json.id || $json.user_id }}",
                             "type": "string"
                         },
                         {
@@ -187,7 +187,7 @@
                         {
                             "id": "get-new-username",
                             "name": "username",
-                            "value": "={{ $('Webhook').first().json.body.username }}",
+                            "value": "={{ $json.username || $('Webhook').first().json.body.username }}",
                             "type": "string"
                         }
                     ]

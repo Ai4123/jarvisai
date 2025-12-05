@@ -53,10 +53,10 @@ export default function Login() {
       toast.success(
         <div className="flex items-center gap-2">
           <Sparkles className="w-4 h-4 text-green-400" />
-          <span>Welcome to JARVIS AI, {formData.name || formData.username}! 🚀</span>
+          <span>Welcome to SENSI AI, {formData.name || formData.username}! 🚀</span>
         </div>,
         {
-          className: 'jarvis-toast',
+          className: 'sensi-toast',
           duration: 4000,
         }
       );
@@ -69,7 +69,7 @@ export default function Login() {
           <span>Access denied: Invalid credentials</span>
         </div>,
         {
-          className: 'jarvis-toast',
+          className: 'sensi-toast',
         }
       );
     } finally {
@@ -134,10 +134,10 @@ export default function Login() {
         initial={{ opacity: 0, scale: 0.8, y: 50 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        className="jarvis-glass rounded-2xl shadow-2xl w-full max-w-md relative overflow-hidden border border-cyan-500/30"
+        className="sensi-glass rounded-2xl shadow-2xl w-full max-w-md relative overflow-hidden border border-cyan-500/30"
       >
         {/* Header Section */}
-        <div className="jarvis-gradient-bg p-8 text-center">
+        <div className="sensi-gradient-bg p-8 text-center">
           <motion.div
             initial={{ scale: 0, rotate: -180 }}
             animate={{ scale: 1, rotate: 0 }}
@@ -152,7 +152,7 @@ export default function Login() {
             transition={{ delay: 0.3 }}
             className="text-3xl font-bold text-white mb-2"
           >
-            JARVIS AI
+            SENSI AI
           </motion.h2>
           <motion.p
             initial={{ opacity: 0 }}
@@ -186,7 +186,7 @@ export default function Login() {
                     placeholder={field.placeholder}
                     value={formData[field.name]}
                     onChange={handleChange}
-                    className="jarvis-input w-full pl-12 pr-4 py-4 text-cyan-100 placeholder-cyan-300/60 transition-all duration-300 focus:border-cyan-400 focus:scale-[1.02]"
+                    className="sensi-input w-full pl-12 pr-4 py-4 text-cyan-100 placeholder-cyan-300/60 transition-all duration-300 focus:border-cyan-400 focus:scale-[1.02]"
                     required
                   />
 
@@ -214,7 +214,7 @@ export default function Login() {
             className={`w-full mt-6 py-4 rounded-xl font-semibold transition-all duration-300 relative overflow-hidden group ${
               loading
                 ? 'bg-gray-600/50 text-gray-400 cursor-not-allowed'
-                : 'jarvis-gradient-button text-white shadow-lg'
+                : 'sensi-gradient-button text-white shadow-lg'
             }`}
           >
             <AnimatePresence mode="wait">
@@ -252,7 +252,7 @@ export default function Login() {
                   className="flex items-center justify-center gap-2"
                 >
                   <LogIn className="w-5 h-5" />
-                  <span>Access JARVIS AI</span>
+                  <span>Access SENSI AI</span>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -278,9 +278,9 @@ export default function Login() {
         </form>
 
         {/* Footer */}
-        <div className="jarvis-glass-light border-t border-cyan-500/20 p-4 text-center">
+        <div className="sensi-glass-light border-t border-cyan-500/20 p-4 text-center">
           <p className="text-cyan-300/40 text-sm">
-            JARVIS AI System v2.0 • Advanced Support Platform
+            SENSI AI System v2.0 • Advanced Support Platform
           </p>
         </div>
       </motion.div>
